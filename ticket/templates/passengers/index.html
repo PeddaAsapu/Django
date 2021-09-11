@@ -1,0 +1,34 @@
+{% extends 'passengers/base.html' %}
+
+{% block content %}
+
+
+
+<table class="table" table-boardered style="background-color:#45c1fa">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Date Of Birth</th>
+            <th>Mobile</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+
+        <tr>
+            <td>{{passengers.passenger_name}}</td>
+            <td>{{passengers.age}}</td>
+            <td>{{passengers.dob}}</td>
+            <td>{{passengers.mobile}}</td>
+        </tr>
+
+
+
+
+    </tbody>
+
+</table>
+{% endblock %}
