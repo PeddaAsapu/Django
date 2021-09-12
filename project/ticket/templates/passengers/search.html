@@ -1,26 +1,11 @@
 {% extends 'passengers/base.html' %}
 
 {% block content %}
-
-    <h1> search for any ID to get the details </h1>
-    
-   
-    
-    <form method=POST action="{% url 'temperature' %}">
-      {% csrf_token %}
-        <select name="city" >
-            <option selected>Choose the city </option>
-            <option value="Wollongong" >Wollongong</option>
-            <option value="London">London</option>
-            <option value="Sydney">Sydney</option>
-            <option value="New York" >New York</option>
-            <option value="Amalapuram" >Amalapuram</option>
-        </select>
-        <input type = "submit" name = "submitted"></input> 
-    </form>
-
  <!-- WeatherData.main.temp -->
     <body>
+    <!--
+
+    
          {% if WeatherData.name %}
             {%load custom_tags%}
              
@@ -35,35 +20,50 @@
          {%else%}
             <h1> Enter the city </h1>
           {% endif %}
+-->
 
+<style>
+.arrange {
+  margin: auto;
+  width: 50%;
+  border: 3px #4B515D;
+  padding: 10px;
+}
 
+.text_allign{
+  text-align: center;
+}
+</style>
 
 <section class="vh-100" style="background-color: #4B515D;">
   <div class="container py-5 h-100">
 
+<div class="arrange">
 
         <form method=POST action="{% url 'temperature' %}">
-      {% csrf_token %}
-        <select name="city" >
-            <option selected>Choose the city </option>
+            {% csrf_token %}
+       <!--     
+        <select name="city" style = "width : 100%;"  class = "text_allign"  >
+            <option selected >Choose the city </option>
             <option value="Wollongong" >Wollongong</option>
             <option value="London">London</option>
             <option value="Sydney">Sydney</option>
             <option value="New York" >New York</option>
             <option value="Amalapuram" >Amalapuram</option>
         </select>
-        <input type = "submit" name = "submitted"></input> 
+      -->
+         <input type="search" placeholder="Enter the city name to get the climate update..." name="city" style = "width : 100%;"  class = "text_allign" >
+        <input type = "submit" name = "submitted" style = "width : 100%;background-color:#8FC98B;"></input> 
     </form>
 
 
 
+
+</div>
+
+
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-8 col-lg-6 col-xl-4">
-
-
-
-    
-
 
 
 {% if WeatherData.name %}
@@ -77,13 +77,13 @@
 
             <div class="d-flex flex-column text-center mt-5 mb-4">
         
-
+        <!-- Adding custom tag to convert temp in Kelvin to Deg Celsius-->
             {%load custom_tags%}
               <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;"> {% add WeatherData.main.temp -273.15 %} °C</h6>
               <span class="small" style="color: #868B94">
               <ul>
                 {% for i in WeatherData.weather %} 
-                    {{i.description}}
+                    <h6>{{i.description}} </h6> <!--  -->
                 {% endfor %}
             </ul>
               
