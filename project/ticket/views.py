@@ -4,6 +4,7 @@ from .models import Passenger
 import requests
 import json
 import math
+from django.core.mail import send_mail
 # Create your views here.
 
 
@@ -33,3 +34,34 @@ def temperature(request):
     else:
         return render(request,'passengers/search.html', {})
     #return HttpResponse(string)
+
+
+# python -m smtpd -n -c DebuggingServer localhost:1025
+#local host and port number have been specified in settings file
+
+
+
+
+def email(request):
+    if request.method == "POST":
+        email_to_find = request.POST['find_email']
+        error_message = "Email ID not found"
+        valid = True
+        try:
+            passenger_details = Passenger.objects.get(email=email_to_find)
+        except:
+            valid = False
+        if valid:
+
+            send_mail(
+                    f'Hey {passenger_details.passenger_name} Your account info is here !!',
+                    f'name: {passenger_details.passenger_name}, mobile : {passenger_details.mobile}, age : {passenger_details.age} , DOB : {passenger_details.dob}',
+                    'Donotreply@gmail.com',
+                    [passenger_details.email],
+                    fail_silently=True,
+)
+            return render(request,'passengers/search.html',{"passenger_details":passenger_details})
+        else:
+            return render(request,'passengers/search.html',{"error_message":error_message})
+    else:
+         return render(request,'passengers/search.html',{})

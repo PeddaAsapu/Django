@@ -1,9 +1,10 @@
 {% extends 'passengers/base.html' %}
 
 {% block content %}
- <!-- WeatherData.main.temp -->
-    <body>
-    <!--
+<!-- WeatherData.main.temp -->
+
+<body>
+  <!--
 
     
          {% if WeatherData.name %}
@@ -22,27 +23,46 @@
           {% endif %}
 -->
 
-<style>
-.arrange {
-  margin: auto;
-  width: 50%;
-  border: 3px #4B515D;
-  padding: 10px;
-}
+  <style>
+    .arrange {
+      margin: auto;
+      width: 50%;
+      border: 3px #4B515D;
+      padding: 10px;
+    }
 
-.text_allign{
-  text-align: center;
-}
-</style>
+    .text_allign {
+      text-align: center;
+    }
+  </style>
 
-<section class="vh-100" style="background-color: #4B515D;">
-  <div class="container py-5 h-100">
+  <section class="vh-100" style="background-color: #4B515D;">
+    <div class="container py-5 h-100">
 
-<div class="arrange">
+      <div class="arrange">
 
+        <!-- Email form to send the details -->
+        <form method="POST" action="{% url 'email' %}">
+          {% csrf_token %}
+          <input type="text" placeholder="email" name="find_email"> </input> </h4>
+          <button type=submit>Send My Details</button>
+        </form>
+        <!-- End of email form -->
+
+        {% if passenger_details.email %}
+        <h5> email has been sent to {{passenger_details.email}}</h5>
+        {%elif error_message%}
+        <h5> Email ID not found </h5>
+        {% else %}
+        <h5>Enter email to get the details through email </h5>
+        {% endif %}
+
+
+      </div>
+      <div class="arrange">
         <form method=POST action="{% url 'temperature' %}">
-            {% csrf_token %}
-       <!--     
+          {% csrf_token %}
+          <!--     
         <select name="city" style = "width : 100%;"  class = "text_allign"  >
             <option selected >Choose the city </option>
             <option value="Wollongong" >Wollongong</option>
@@ -52,64 +72,69 @@
             <option value="Amalapuram" >Amalapuram</option>
         </select>
       -->
-         <input type="search" placeholder="Enter the city name to get the climate update..." name="city" style = "width : 100%;"  class = "text_allign" >
-        <input type = "submit" name = "submitted" style = "width : 100%;background-color:#8FC98B;"></input> 
-    </form>
+          <input type="search" placeholder="Enter the city name to get the climate update..." name="city"
+            style="width : 100%;" class="text_allign">
+          <input type="submit" name="submitted" style="width : 100%;background-color:#8FC98B;"></input>
+        </form>
 
 
 
-
-</div>
-
-
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-8 col-lg-6 col-xl-4">
-
-
-{% if WeatherData.name %}
-        <div class="card" style="color: #4B515D; border-radius: 35px;">
-          <div class="card-body p-4">
-
-            <div class="d-flex">
-              <h6 class="flex-grow-1">{{WeatherData.name}}</h6>
-              <h6>15:07</h6>
-            </div>
-
-            <div class="d-flex flex-column text-center mt-5 mb-4">
-        
-        <!-- Adding custom tag to convert temp in Kelvin to Deg Celsius-->
-            {%load custom_tags%}
-              <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;"> {% add WeatherData.main.temp -273.15 %} °C</h6>
-              <span class="small" style="color: #868B94">
-              <ul>
-                {% for i in WeatherData.weather %} 
-                    <h6>{{i.description}} </h6> <!--  -->
-                {% endfor %}
-            </ul>
-              
-              
-              </span>
-            </div>
-
-            <div class="d-flex align-items-center">
-              <div class="flex-grow-1" style="font-size: 1rem;">
-                <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 40 km/h </span></div>
-                <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 84% </span></div>
-                <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 0.2h </span></div>
-              </div>
-              <div>
-                <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-weather/ilu1.png" width="100px">
-              </div>
-            </div>
-{% endif %}
-          </div>
-        </div>
 
       </div>
+
+
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-8 col-lg-6 col-xl-4">
+
+
+          {% if WeatherData.name %}
+          <div class="card" style="color: #4B515D; border-radius: 35px;">
+            <div class="card-body p-4">
+
+              <div class="d-flex">
+                <h6 class="flex-grow-1">{{WeatherData.name}}</h6>
+                <h6>Time</h6>
+              </div>
+
+              <div class="d-flex flex-column text-center mt-5 mb-4">
+
+                <!-- Adding custom tag to convert temp in Kelvin to Deg Celsius-->
+                {% load custom_tags %}
+                <!--WeatherData.main.temp -273.15
+                  %} °C-->
+
+                <h6 class="display-4 mb-0 font-weight-bold">{% add WeatherData.main.temp -273.15 %} ° C </h6>
+                <span class="small" style="color: #868B94">
+                  <ul>
+                    {% for i in WeatherData.weather %}
+                    <h6>{{i.description}} </h6> <!--  -->
+                    {% endfor %}
+                  </ul>
+
+
+                </span>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1" style="font-size: 1rem;">
+                  <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 40 km/h </span>
+                  </div>
+                  <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 84% </span></div>
+                  <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 0.2h </span></div>
+                </div>
+                <div>
+                  <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-weather/ilu1.png" width="100px">
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
+  </section>
 
-  </div>
-</section>
-
-    </body>
-{% endblock  %}
+</body>
+{% endblock %}
