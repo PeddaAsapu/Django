@@ -5,6 +5,7 @@ import requests
 import json
 import math
 from django.core.mail import send_mail
+import config
 # Create your views here.
 
 
@@ -22,8 +23,8 @@ def temperature(request):
 
     if request.method =="POST":
         city_given = request.POST['city']
-        appid = "appid=5cac6a9ab0b0f4798f0b21a31cd45eca"
-        link = "https://api.openweathermap.org/data/2.5/weather?q="
+        appid = config.api_key
+        link = config.api_url
         And = "&"
         url = link + city_given + And + appid
         response = requests.get(url)

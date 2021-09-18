@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -125,6 +126,6 @@ STATIC_URL = '/static/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'peddababuasapu@gmail.com'
-EMAIL_HOST_PASSWORD = 'Surya402@gmail'
+EMAIL_HOST_USER = config.email
+EMAIL_HOST_PASSWORD = config.password
 EMAIL_USE_TLS = True
