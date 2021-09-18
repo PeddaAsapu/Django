@@ -5,7 +5,7 @@ import requests
 import json
 import math
 from django.core.mail import send_mail
-import config
+import flight.config as config
 # Create your views here.
 
 
